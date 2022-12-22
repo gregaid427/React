@@ -18,7 +18,7 @@ function Home(props) {
         style={{ backgroundImage: `url(${Background})` }}
       >
         <div className="wrapper mx-auto sm:pb-8 ">
-          <div className="flex sm:justify-center md:justify-start ">
+          <div className="flex sm:justify-center md:justify-start  hh">
             {" "}
             <img src={GreenSquareLogo} className=" w-[200px]   " />
           </div>
