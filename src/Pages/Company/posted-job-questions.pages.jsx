@@ -36,7 +36,7 @@ function PostJobsByCompany(props) {
 
     var raw = JSON.stringify({
       positon: position,
-      company: company_id,
+      // company: company_id,
       location: {
         country: country,
         region: region,
@@ -63,19 +63,19 @@ function PostJobsByCompany(props) {
       redirect: "follow",
     };
 
-    fetch(
-      `${process.env.REACT_APP_HOST}/companies/${company_id}/jobs`,
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        alert(result.message);
-        if (result.success) {
-          navigate("/company-jobs");
-        }
-      })
-      .catch((error) => console.log("error", error));
+    // fetch(
+    //   `${process.env.REACT_APP_HOST}/companies/${company_id}/jobs`,
+    //   requestOptions
+    // )
+    //   .then((response) => response.json())
+    //   .then((result) => {
+    //     console.log(result);
+    //     alert(result.message);
+    //     if (result.success) {
+    //       navigate("/company-jobs");
+    //     }
+    //   })
+    //   .catch((error) => console.log("error", error));
   };
 
   useEffect(() => {
