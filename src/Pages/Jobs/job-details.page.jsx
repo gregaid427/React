@@ -15,6 +15,9 @@ import feature3 from "./../../Assets/images/feature5.png";
 import feature4 from "./../../Assets/images/feature4.png";
 import { ReactComponent as IconPack4 } from "./../../Assets/icons/Icons-01.svg";
 import { ReactComponent as IconPack6 } from "./../../Assets/icons/Icons-02.svg";
+import { applyJob } from "../../redux/slices/JobapplySlice";
+import { useDispatch, useSelector } from "react-redux";
+import JobContainer from "../../Components/Containers/job-container.components";
 
 function JobDetails(props) {
   const [showModal, setShowModal] = React.useState(false);
@@ -23,6 +26,7 @@ function JobDetails(props) {
   console.log(companyId);
   const [jobs, setJobs] = useState([]);
   const [company, setCompany] = useState([]);
+
 
   useEffect(() => {
     var requestOptions = {
@@ -53,7 +57,7 @@ function JobDetails(props) {
       redirect: "follow",
     };
     fetch(
-      `${process.env.REACT_APP_HOST}/companies/638284f4c5a64a66a83318b5`,
+      `${process.env.REACT_APP_HOST}/companies/${companyId}`,
       requestOptions
     )
       .then((response) => response.json())
@@ -75,6 +79,51 @@ function JobDetails(props) {
   const money = jobs?.salary;
   const area = jobs?.location;
 
+
+
+
+  const data ={
+
+    jobId : jobs?._id 
+  }
+
+const dispatch = useDispatch()
+  const applyJobs = () => {
+    console.log("dfshudfhsuhduhsfudhfushdfushd")
+    console.log(data)
+    setShowModal(false);
+    dispatch(applyJob(data));
+
+  }
+
+
+  const [job, setJob] = useState([]);
+
+  useEffect(() => {
+    var requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch(`${process.env.REACT_APP_HOST}/jobs/category/${jobs?.cartegory}`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        if (result.success) {
+     
+          setJob(result.jobs);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        // alert(error.message);
+      });
+  }, []);
+
+
+
+
+
   console.log(company);
 
   return (
@@ -92,7 +141,7 @@ function JobDetails(props) {
               {jobs?.position}
             </h2>
             <h3 className="text-2xl text-slate-500 sm:text-center md:text-left ">
-              Company Name
+            {company?.name}
             </h3>
           </div>
         </div>
@@ -107,13 +156,9 @@ function JobDetails(props) {
               Experience Required/More Information
             </h3>
             <h3 className="text-xl   ">
-              Hardcoded text because api doesnt return any info below ,,,it
-              returns description above <br></br>
-              Porttitor amet massa Done cporttitor dolor et nisl molestie ium
-              feliscon lore ipsum dolor tfringilla. lorem lorem ipsum.
-              ollcitudin est dolor time.
+            {jobs?.requirements}
             </h3>
-            <ul style={{ listStyleType: "square" }} className="pl-5">
+            {/* <ul style={{ listStyleType: "square" }} className="pl-5">
               <li>
                 feliscon lore ipsum dolor tfringilla. lorem lorem ipsum.
                 ollcitudin
@@ -138,7 +183,7 @@ function JobDetails(props) {
                 feliscon lore ipsum dolor tfringilla. lorem lorem ipsum.
                 ollcitudin
               </li>
-            </ul>
+            </ul> */}
           </div>
 
           <div className="my-3">
@@ -146,11 +191,9 @@ function JobDetails(props) {
               Experience Required/More Information
             </h3>
             <h3 className="text-xl   ">
-              Porttitor amet massa Done cporttitor dolor et nisl molestie ium
-              feliscon lore ipsum dolor tfringilla. lorem lorem ipsum.
-              ollcitudin est dolor time.
+            {jobs?.otherRequirements}
             </h3>
-            <ul style={{ listStyleType: "square" }} className="pl-5">
+            {/* <ul style={{ listStyleType: "square" }} className="pl-5">
               <li>
                 feliscon lore ipsum dolor tfringilla. lorem lorem ipsum.
                 ollcitudin
@@ -175,7 +218,7 @@ function JobDetails(props) {
                 feliscon lore ipsum dolor tfringilla. lorem lorem ipsum.
                 ollcitudin
               </li>
-            </ul>
+            </ul> */}
           </div>
         </div>
         <div className="md:w-4/12 flex flex-col sm:w-12/12 ">
@@ -203,11 +246,13 @@ function JobDetails(props) {
               ></IconPack6>
               <div className="  flex flex-col text-start justify-between gap-3">
                 <h3 className="text-md  font-semibold text-slate-400 ">
-                  24 Open positions at this company
+                {company?.jobs?.length }  Open positions at this company
                 </h3>
+                <Link to={'/company-details/'+company?._id } >
                 <h3 className="text-xl font-semibold text-[#69C080] ">
                   view Profile
                 </h3>
+                </Link>
               </div>
             </div>
           </div>
@@ -221,97 +266,35 @@ function JobDetails(props) {
         </div>
       </div>
 
-      <div className="flex  wrapper flex-col w-full  bg-[#F2F2F2]">
-        <h3 className="text-4xl  mt-5 mb-8 text-center ">Related Jobs</h3>
-        <div className="flex py-7  w-12/12 gap-3 flex-col ">
-          <div className="md:w-12/12 sm:w-12/12 flex sm:flex-col  bg-white ">
-            <img
-              src={feature1}
-              className="md:w-3/12 sm:w-12/12 h-[170px] object-contain "
-            ></img>
 
-            <div className="md:w-9/12 sm:w-12/12 sm:py-2   px-4  flex flex-col gap-3 md:my-auto ">
-              <h3 className="text-xl ">
-                Python Software Engineering Associate – Credit Technology
-              </h3>
-              <h4 className="text-md">London, England</h4>
-              <h4 className="text-md">$100,000</h4>
-              <h4 className="text-md">Full Time Role</h4>{" "}
-              <div className=" flex md:flex-row relative sm:flex-col  md:justify-between sm:items-start">
-                {" "}
-                <div className="p-2 mb-2 flex gap-2 md:absolute  sm:mx-auto bottom-5 right-0   rounded-md bg-[#69C080] ">
-                  <h4 className="  text-md text-white  ">
-                    APPLY FOR THIS JOB{" "}
-                  </h4>{" "}
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div className="md:w-12/12 sm:w-12/12 flex sm:flex-col  bg-white ">
-            <img
-              src={feature2}
-              className="md:w-3/12 sm:w-12/12 h-[170px] object-contain "
-            ></img>
-
-            <div className="md:w-9/12 sm:w-12/12 sm:py-2   px-4  flex flex-col gap-3 md:my-auto ">
-              <h3 className="text-xl ">Associate Software Engineer Java</h3>
-              <h4 className="text-md">London, England</h4>
-              <h4 className="text-md">$100,000</h4>
-              <h4 className="text-md">Full Time Role</h4>{" "}
-              <div className=" flex md:flex-row sm:w-3/12  relative sm:flex-col md:justify-between ">
-                {" "}
-                <div className="p-2 mb-2 flex md:absolute bottom-5 right-0  gap-2 rounded-md float-right bg-[#FFBE24] ">
-                  <IconPack4 fill="#000000" className="h-5 my-auto" />
-                  <h4 className=" text-md  "> PRO</h4>{" "}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="md:w-12/12 sm:w-12/12 flex sm:flex-col  bg-white ">
-            <img
-              src={feature3}
-              className="md:w-3/12 sm:w-12/12 h-[170px] object-contain "
-            ></img>
-
-            <div className="md:w-9/12 sm:w-12/12 sm:py-2   px-4  flex flex-col gap-3 md:my-auto ">
-              <h3 className="text-xl ">Associate Software Engineer Java</h3>
-              <h4 className="text-md">London, England</h4>
-              <h4 className="text-md">$100,000</h4>
-              <h4 className="text-md">Full Time Role</h4>{" "}
-              <div className=" flex md:flex-row sm:w-3/12  relative sm:flex-col md:justify-between ">
-                {" "}
-                <div className="p-2 mb-2 flex md:absolute bottom-5 right-0  gap-2 rounded-md float-right bg-[#FFBE24] ">
-                  <IconPack4 fill="#000000" className="h-5 my-auto" />
-                  <h4 className=" text-md  "> PRO</h4>{" "}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="md:w-12/12 sm:w-12/12 flex sm:flex-col  bg-white ">
-            <img
-              src={feature4}
-              className="md:w-3/12 sm:w-12/12 h-[170px] object-contain "
-            ></img>
-
-            <div className="md:w-9/12 sm:w-12/12 sm:py-2   px-4  flex flex-col gap-3 md:my-auto ">
-              <h3 className="text-xl ">Associate Software Engineer Java</h3>
-              <h4 className="text-md">London, England</h4>
-              <h4 className="text-md">$100,000</h4>
-              <h4 className="text-md">Full Time Role</h4>{" "}
-              <div className=" flex md:flex-row sm:w-3/12  relative sm:flex-col md:justify-between ">
-                {" "}
-                <div className="p-2 mb-2 flex md:absolute bottom-5 right-0  gap-2 rounded-md float-right bg-[#FFBE24] ">
-                  <IconPack4 fill="#000000" className="h-5 my-auto" />
-                  <h4 className=" text-md  "> PRO</h4>{" "}
-                </div>
-              </div>
-            </div>
-          </div>
+      <div className="flex flex-col w-full py-7 bg-[#F2F2F2]">
+      <h3 className="text-4xl  mt-5 mb-8 text-center ">Related Jobs</h3>
+        <div className="wrapper flex w-12/12 gap-2 flex-col ">
+          {job.length > 0 ? (
+            <>
+              {job &&
+                job.slice(0, 4).map((jobb, index) => (
+                  <Link
+                    className="text-decoration-none text-black"
+                    to={'/job-details/'+jobb._id+'/'+jobb.company }
+                    state={jobb}
+                    key={index}
+                  >
+                    <JobContainer
+                      backgroundColor={"bg-white"}
+                      job={jobb}
+                      showImages={true}
+                    />
+                  </Link>
+                ))}
+            </>
+          ) : (
+            <p className="text-center text-2xl ">No related jobs found.</p>
+          )}
         </div>{" "}
       </div>
+
 
       <div className=" w-full flex md:flex-row  bg-[#69C080] sm:flex-col">
         <div className="md:w-6/12 flex my-auto sm:text-center sm:justify-center sm:py-7  sm:12/12">
@@ -343,12 +326,12 @@ function JobDetails(props) {
                   <h3 className="text-2xl text-[#69C080] text-center font-semibold">
                     Apply Now
                   </h3>
-                  <h3 className="text-md text-center ">
+                  <h3 className={jobs?.questions?.length ? "text-md text-center " : "hidden" }>
                     To complete your application, please answer the following
-                    optional prompt from "company name"
+                    optional prompt from     {company?.name}
                   </h3>
                   <h3 className="text-md text-center font-semibold">
-                    optional question prompt goes here
+                   {jobs?.questions}
                   </h3>
                   <button
                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -360,9 +343,9 @@ function JobDetails(props) {
                   </button>
 
                   {/*body*/}
-
-                  <textarea
-                    className="w-full bg-[#f2f2f2] rounded-xl p-2 "
+                  
+                  <textarea 
+                    className={jobs?.questions?.length ? "w-full bg-[#f2f2f2] rounded-xl p-2 " : "hidden" }
                     rows={6}
                   ></textarea>
                 </div>
@@ -371,7 +354,7 @@ function JobDetails(props) {
                   <button
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => applyJobs()}
                   >
                     Apply Now
                   </button>

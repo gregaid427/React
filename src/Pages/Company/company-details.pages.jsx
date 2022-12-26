@@ -1,5 +1,5 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useLocation, useParams } from "react-router-dom";
 
 import smilingWoman from "../../Assets/images/smiling_woman.jpeg";
 import Footer from "../../Components/Footer/footer.component";
@@ -20,6 +20,7 @@ import { ReactComponent as IconPack2 } from "./../../Assets/icons/Icons-02.svg";
 import { ReactComponent as IconPack3 } from "./../../Assets/icons/Icons-09.svg";
 import { ReactComponent as IconPack4 } from "./../../Assets/icons/Icons-01.svg";
 import { useState } from "react";
+import CompanyJobContainer from "../../Components/Containers/company-job-container.components";
 
 function CompanyDetails(props) {
   props.setShowNavBar(true);
@@ -27,12 +28,70 @@ function CompanyDetails(props) {
   // const [keyword, setKeyword] = useState("");
   // const [location, setLocation] = useState("");
   const [optionState, setoptionState] = useState("value");
-  const company = useLocation().state;
+  // const company = useLocation().state;
   const options = [
     { value: "chocolate", label: "Chocolate" },
     { value: "strawberry", label: "Strawberry" },
     { value: "vanilla", label: "Vanilla" },
   ];
+
+  let {companyId } = useParams();
+  const [company, setCompany] = useState([]);
+
+
+  useEffect(() => {
+    var requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+    fetch(
+      `${process.env.REACT_APP_HOST}/companies/${companyId}`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        // console.log(result);
+        if (result?._id) {
+          console.log("entered");
+          console.log(result);
+          setCompany(result);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        // alert(error.message);
+      }); /////////////////////////////////////////
+    console.log(companyId);
+  }, [companyId]);
+
+
+  const [jobs, setJobs] = useState("");
+
+  useEffect(() => {
+    var requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+
+    fetch(`${process.env.REACT_APP_HOST}/companies/${companyId}/jobs`, requestOptions)
+      .then((response) => response.json())
+      .then((jobresult) => {
+
+     
+        if (jobresult.success) {
+        
+        setJobs(jobresult)
+   console.log(jobs)
+       
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        // alert(error.message);
+      });
+  }, []);
+
+
 
   return (
     <>
@@ -53,10 +112,11 @@ function CompanyDetails(props) {
           ></img>
           <div className=" justify-end pb-8 gap-3 md:w-8/12 sm:w-12/12 flex-col flex md:text-left sm:text-center ">
             {" "}
-            <h3 className="text-4xl font-semibold">Company Name</h3>
+            <h3 className="text-4xl font-semibold">{company?.name}</h3>
             <div className="flex sm:justify-center md:text-left gap-4">
               <IconPack2 fill="#69C080" className="h-5 my-auto" />
-              <h3 className="text-xl">24 Open Positions </h3>
+          
+              <h3 className="text-xl"> {company?.jobs?.length } Open Positions </h3>
             </div>
           </div>
         </div>
@@ -149,35 +209,35 @@ function CompanyDetails(props) {
           </div>
         </div>
       </div>
-      <div className="wrapper my-7 flex flex-col gap-4 ">
-        <div className="w-full  sm:py-2   px-4 bg-[#f2f2f2]  flex flex-col gap-5 md:my-auto ">
-          <h3 className="text-xl ">Associate Software Engineer Java</h3>
-          <h4 className="text-md">London, England</h4>
-          <h4 className="text-md">$100,000</h4>
-          <h4 className="text-md">Full Time Role</h4>{" "}
-          <div className=" flex md:flex-row sm:w-3/12  relative sm:flex-col md:justify-between ">
-            {" "}
-            <div className="p-2 mb-2 flex md:absolute bottom-5 right-0  gap-2 rounded-md float-right bg-[#FFBE24] ">
-              <IconPack4 fill="#000000" className="h-5 my-auto" />
-              <h4 className=" text-md  "> PRO</h4>{" "}
-            </div>
-          </div>
-        </div>
 
-        <div className="w-full  sm:py-2  bg-[#f2f2f2] px-4  flex flex-col gap-5 md:my-auto ">
-          <h3 className="text-xl ">
-            Python Software Engineering Associate – Credit Technology
-          </h3>
-          <h4 className="text-md">London, England</h4>
-          <h4 className="text-md">$100,000</h4>
-          <h4 className="text-md">Full Time Role</h4>{" "}
-          <div className=" flex md:flex-row relative sm:flex-col  md:justify-between sm:items-start">
-            {" "}
-            <div className="p-2 mb-2 flex gap-2 md:absolute  sm:mx-auto bottom-5 right-0   rounded-md bg-[#69C080] ">
-              <h4 className="  text-md text-white  ">APPLY FOR THIS JOB </h4>{" "}
-            </div>
-          </div>
-        </div>
+
+      
+      <div className="wrapper my-7 flex flex-col gap-4 ">
+      {jobs?.companyJobs?.length > 0 ? (
+            <>
+              {jobs?.companyJobs &&
+                jobs?.companyJobs?.slice(0, 5).map((job, index) => (
+                  <Link
+                    className="text-decoration-none text-black"
+                    to={'/job-details/'+job?._id+'/'+job?.company }
+                    state={job}
+                    key={index}
+                  >
+                    <CompanyJobContainer
+                      backgroundColor={"bg-white"}
+                      job={job}
+                     
+                    />
+                  </Link>
+                ))}
+            </>
+          ) : (
+            <p className="text-center text-2xl ">No other jobs found for this company.</p>
+          )}
+      
+
+
+
       </div>
 
       <div className=" w-full flex md:flex-row  bg-[#69C080] sm:flex-col">

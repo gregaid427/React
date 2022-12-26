@@ -36,9 +36,9 @@ export const loginUserAction = createAsyncThunk(
       }
       return data;
     } catch (error) {
-      if (!error?.response) {
-        throw error;
-      }
+      // if (!error?.response) {
+      //   throw error;
+      // }
       toast.error("Incorrect Username or Password");
       return rejectWithValue(error.response.data);
     }
@@ -133,8 +133,8 @@ const UsersSlices = createSlice({
   initialState: initialState,
   reducers: {
     setUserInfo(state, action) {
-      state.email = action.payload.email;
-      state.user_id = action.payload.user_id;
+      state.email = action?.payload?.email;
+      state.user_id = action?.payload?.user_id;
       state.name = action.payload.name;
       state.token = action.payload.token;
       state.role = action.payload.role;
@@ -144,11 +144,15 @@ const UsersSlices = createSlice({
       state.isCompany = action.payload.isCompany
       state.message = action.payload.message
       state.success = action.payload.success
+      console.log("called")
     },
     reset() {
       return {
         ...initialState
       }
+    },
+    setvisitorstatus(state, action) {
+      state.isCompany = action.payload
     }
    
   },
@@ -251,6 +255,6 @@ const UsersSlices = createSlice({
   },
 });
 
-export const { setUserInfo,reset } = UsersSlices.actions;
+export const { setUserInfo,reset,setvisitorstatus } = UsersSlices.actions;
 
 export default UsersSlices.reducer;

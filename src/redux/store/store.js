@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import stores from "../slices/storeSlice";
+import applications from "../slices/JobapplySlice";
 import myusers from "../slices/UsersSlice";
 
 const store = configureStore({
   reducer: {
-    stores: stores,
+    applications: applications,
     myusers: myusers,
     
 

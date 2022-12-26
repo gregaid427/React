@@ -199,28 +199,29 @@ export default function BrowseJobs(props) {
           </div>
         </div>
       </div>
-      <div className="wrapper flex w-12/12 gap-3 flex-col my-20 ">
-        <div className="md:w-12/12 sm:w-12/12 flex sm:flex-col  bg-white ">
-          <img
-            src={feature4}
-            className="md:w-2/12 sm:w-12/12 h-[150px] object-contain "
-          ></img>
-
-          <div className="md:w-10/12 sm:w-12/12 sm:py-2   px-4 py-2  flex flex-col gap-2 md:my-auto bg-[#f2f2f2] ">
-            <h3 className="text-xl ">Associate Software Engineer Java</h3>
-            <h4 className="text-md">London, England</h4>
-            <h4 className="text-md">$100,000</h4>
-            <h4 className="text-md">Full Time Role</h4>{" "}
-            <div className=" flex md:flex-row sm:w-3/12  relative sm:flex-col md:justify-between ">
-              {" "}
-              <div className="p-2 mb-2 flex md:absolute bottom-5 right-0  gap-2 rounded-md float-right bg-[#FFBE24] ">
-                <IconPack4 fill="#000000" className="h-5 my-auto" />
-                <h4 className=" text-md  "> PRO</h4>{" "}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>{" "}
+      <div className="wrapper flex w-12/12 gap-3 flex-col ">
+          {jobs.length > 0 ? (
+            <>
+              {jobs &&
+                jobs.slice(0, 4).map((job, index) => (
+                  <Link
+                    className="text-decoration-none text-black"
+                    to={'/job-details/'+job._id+'/'+job.company }
+                    state={job}
+                    key={index}
+                  >
+                    <JobContainer
+                      backgroundColor={"bg-white"}
+                      job={job}
+                      showImages={true}
+                    />
+                  </Link>
+                ))}
+            </>
+          ) : (
+            <p className="text-center text-2xl ">No jobs found.</p>
+          )}
+        </div>{" "}
       <div className="my-6 bg-[#f2f2f2]">
         <div className=" wrapper  ">
           <h3 className="text-3xl font-semibold text-center py-4">

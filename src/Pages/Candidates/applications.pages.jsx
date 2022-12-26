@@ -8,17 +8,17 @@ import Header from "../../Components/header/header";
 import Nav from "../../Components/NavBar/nav.component";
 
 function JobApplications(props) {
-  props.setShowNavBar(true);
-  const { getAppliedJobs, appliedJobs } = useJobServices();
-  let callAppliedJobs = useRef();
-  callAppliedJobs = 0;
+  // props.setShowNavBar(true);
+  // const { getAppliedJobs, appliedJobs } = useJobServices();
+  // let callAppliedJobs = useRef();
+  // callAppliedJobs = 0;
 
-  useEffect(() => {
-    if (callAppliedJobs === 0) {
-      getAppliedJobs();
-      callAppliedJobs++;
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (callAppliedJobs === 0) {
+  //     getAppliedJobs();
+  //     callAppliedJobs++;
+  //   }
+  // }, []);
 
   return (
     <>

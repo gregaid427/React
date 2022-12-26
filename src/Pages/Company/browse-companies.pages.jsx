@@ -88,77 +88,65 @@ function CompanyList(props) {
               // onClick={(e) => set0(false)}
             >
               <Link to="/employee-guide w-6/12 " className="text-white">
-                SEARCH JOBS
+                SEARCH companies
               </Link>
             </button>
           </div>
           <div className=" text-xl flex gap-2 font-semibold  ">
-            <h3 className="">Need more search options? {" "}
-            <Link to="/advanced-search">
-              {" "}
-              <span className=" text-[#69C080]">Advanced Search</span>{" "}
-            </Link>{" "}</h3>
+            <h3 className="">
+              Need more search options?{" "}
+              <Link to="/advanced-search">
+                {" "}
+                <span className=" text-[#69C080]">Advanced Search</span>{" "}
+              </Link>{" "}
+            </h3>
           </div>
         </div>
       </div>
 
-      
       <div className="wrapper my-6 md:grid-cols-3 sm:grid-cols-1 gap-5 grid">
-        <div className=" row-span-1 rounded-md flex flex-col shadow-md ">
-          <img className="rounded-md h-[300px]  " src={img1}></img>
-          <div className=" flex p-3  bg-[#f2f2f2] flex-col gap-3 ">
-            <h3 className="font-semibold">Company Name Here</h3>
-            <h3 className="text-slate-400">Company Name Here</h3>
-            <button className=" bg-[#69C080] w-fit rounded-md p-1 px-2 ">
-              <Link to={"/company-details"} className="text-white">
-                {" "}
-                VIEW JOBS{" "}
-              </Link>
-            </button>
-          </div>
-        </div>
+      {companies.length > 0 ? (
+            <>
+              {companies &&
+                companies
+                  // .filter((company) => {
+                  //   // return (
+                  //   //   // company.positon.includes(keyword) ||
+                  //   //   // company.description.includes(keyword) ||
+                  //   //   // Object.values(Category.location).includes(location) ||
+                  //   //   // company.category === category
+                  //   // );
+                  // })
+                  .map((company, index) => (
+                  <div key={index} className=" row-span-1 rounded-md flex flex-col shadow-md ">
+                     <Link
+                          to={`/company-details/${company._id}`}
+                          className={"text-decoration-none text-dark"}
+                          state={company}
+                        >
+                    <img className="rounded-md h-[300px] w-full "  src={company.image ? company.image : Suitcase}></img>
+                    <div className=" flex p-3  bg-[#f2f2f2] flex-col gap-3 ">
+                      <h3 className="font-semibold">{company.name}</h3>
+                      <h3 className="text-slate-600">{company.jobs.length} Jobs Listings</h3>
 
-        <div className=" row-span-1 rounded-md flex flex-col shadow-md ">
-          <img className="rounded-md h-[300px]" src={img2}></img>
-          <div className=" flex p-3  bg-[#f2f2f2] flex-col gap-3 ">
-            <h3 className="font-semibold">Company Name Here</h3>
-            <h3 className="text-slate-400">Company Name Here</h3>
-            <button className=" bg-[#69C080] w-fit rounded-md p-1 px-2 ">
-              <Link to={"/company-details"} className="text-white">
-                {" "}
-                VIEW JOBS{" "}
-              </Link>
-            </button>
-          </div>
-        </div>
+                      
+                      <button className=" bg-[#69C080] font-semibold text-white w-fit uppercase rounded-md p-1 px-2 ">
+                
+                          {" "}
+                          VIEW jobs{" "}
+                        
+                      </button>
+                      
+                    </div>
+                    </Link>
+                  </div>
+       
+              ))}
+          </>
+        ) : (
+          <p className="text-center text-2xl ">No companies found.</p>
+        )}
 
-        <div className=" row-span-1 rounded-md flex flex-col shadow-md ">
-          <img className="rounded-md h-[300px]" src={img3}></img>
-          <div className=" flex p-3  bg-[#f2f2f2] flex-col gap-3 ">
-            <h3 className="font-semibold">Company Name Here</h3>
-            <h3 className="text-slate-400">Company Name Here</h3>
-            <button className=" bg-[#69C080] w-fit rounded-md p-1 px-2 ">
-              <Link to={"/company-details"} className="text-white">
-                {" "}
-                VIEW JOBS{" "}
-              </Link>
-            </button>
-          </div>
-        </div>
-
-        <div className=" row-span-1 rounded-md flex flex-col shadow-md ">
-          <img className="rounded-md h-[300px] " src={img1}></img>
-          <div className=" flex p-3  bg-[#f2f2f2] flex-col gap-3 ">
-            <h3 className="font-semibold">Company Name Here</h3>
-            <h3 className="text-slate-400">Company Name Here</h3>
-            <button className=" bg-[#69C080] w-fit rounded-md p-1 px-2 ">
-              <Link to={"/company-details"} className="text-white">
-                {" "}
-                VIEW JOBS{" "}
-              </Link>
-            </button>
-          </div>
-        </div>
       </div>
       <div className=" w-full flex md:flex-row  bg-[#69C080] sm:flex-col">
         <div className="md:w-6/12 flex my-auto sm:text-center sm:justify-center sm:py-7  sm:12/12">

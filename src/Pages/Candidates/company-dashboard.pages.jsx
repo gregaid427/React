@@ -1,5 +1,5 @@
 import Footer from "../../Components/Footer/footer.component";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Nav from "../../Components/NavBar/nav.component";
 import Header from "../../Components/header/header";
@@ -17,10 +17,44 @@ import HeaderCompany from "../../Components/header/headercompany";
 
 function EmployeeDashboardPage(props) {
   props.setShowNavBar(true);
+
+  const info = JSON.parse(localStorage.getItem("users")); 
+  const [userinfo, setuserinfo] = useState([]);
+
+  const id = JSON.parse(localStorage.getItem("companyID")); 
+
+
+  useEffect(() => {
+  
+    var requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+    fetch(
+      `${process.env.REACT_APP_HOST}/companies/${id}`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        console.log("tgrhthrdthd tsegsg ty rthdt ht");
+        console.log(result);
+      
+        console.log("tgrhthrdthd tsegsg ty rthdt ht");
+                   
+          setuserinfo(result)
+ 
+      })
+      .catch((error) => {
+        console.log(error);
+   
+        // alert(error.message);
+      }); /////////////////////////////////////////
+
+  }, []);
   return (
     <>
      <Nav />
-      <HeaderCompany title={"Welcome,"} subtitle={"CompanyName"} amount={"25.0"} />
+      <HeaderCompany title={"Welcome"} subtitle={info?.company?.name} amount={"25.0"} />
 
       <div className="flex gap-4 md:flex-row sm:flex-col wrapper my-8 ">
         <div className=" justify-center py-5 flex flex-col shadow-md rounded-md border-2 md:w-4/12 sm:12/12">
@@ -35,7 +69,7 @@ function EmployeeDashboardPage(props) {
                 className="w-2/12"
                 style={{ stroke: "#FFBE24", fill: "#FFBE24" }}
               />{" "}
-              <h3 className="text-4xl w-2/12 font-semibold">2</h3>{" "}
+              <h3 className="text-4xl w-2/12 font-semibold">{userinfo?.jobs?.length}</h3>{" "}
               <div className="flex w-8/12 font-semibold gap flex-col">
                 <h3>Job Posted</h3>
                 <Link to="">
@@ -81,22 +115,28 @@ function EmployeeDashboardPage(props) {
         </div>
         <div className="flex md:w-8/12 flex-col sm:w-12/12  ">
           <div className="md:grid-cols-3 sm:grid-cols-2 grid  w-full gap-4 ">
-            <div className="flex flex-col  text-center h-[200px] row-span-1 rounded-md p-5 bg-[#69C080]">
+          <Link to={"/post-a-job"} >
+            <div className="flex flex-col  text-center h-[200px] row-span-1 rounded-md p-5  hover:bg-[#69C080] bg-[#f2f2f2]">
               {" "}
               <IconPack16
-                className="w-2/12 stroke-white stroke-[7px]"
+                className="w-2/12 stroke-[7px]"
                 style={{
                   // height: "100px",
                   width: "auto",
-                  stroke: "#FFF",
-                  fill: "#69C080",
+                  // stroke: "#FFF",
+                  // fill: "#69C080",
+                  stroke: "#94a3b8",
+                  fill: "#f2f2f2",
             
                 
                 }}
               />{" "}
-              <p className="font-semibold text-white text-xl ">Post a Job</p>{" "}
+              <p className="font-semibold  text-xl ">Post a Job</p>{" "}
             </div>
-            <div className="flex flex-col text-center h-[200px] row-span-1 rounded-md p-5 bg-[#f2f2f2]">
+            </Link>
+
+            <Link to={"/cvs"} >
+            <div className="flex flex-col text-center h-[200px] row-span-1 rounded-md hover:bg-[#69C080] bg-[#f2f2f2] p-5  ">
               {" "}
               <IconPack11
                 className="w-2/12  stroke-[7px]"
@@ -111,7 +151,9 @@ function EmployeeDashboardPage(props) {
               />{" "}
               <p className="font-semibold text-xl ">Browse CVs</p>{" "}
             </div>
-            <div className="flex flex-col text-center h-[200px] row-span-1 rounded-md p-5 bg-[#f2f2f2]">
+            </Link>
+            <Link to={"/"} >
+            <div className="flex flex-col text-center h-[200px] row-span-1 rounded-md hover:bg-[#69C080] bg-[#f2f2f2] p-5  ">
               {" "}
               <IconPack12
                 className="w-2/12  stroke-[7px]"
@@ -126,7 +168,9 @@ function EmployeeDashboardPage(props) {
               />{" "}
               <p className="font-semibold text-xl ">Edit Profile</p>{" "}
             </div>
-            <div className="flex flex-col text-center h-[200px] row-span-1 rounded-md p-5 bg-[#f2f2f2]">
+            </Link>
+            <Link to={"/post-a-job"} >
+            <div className="flex flex-col text-center h-[200px] row-span-1 rounded-md hover:bg-[#69C080] bg-[#f2f2f2] p-5  ">
               {" "}
               <IconPack13
                 className="w-2/12  stroke-[7px]"
@@ -141,7 +185,9 @@ function EmployeeDashboardPage(props) {
               />{" "}
               <p className="font-semibold text-xl ">View Posted Jobs</p>{" "}
             </div>
-            <div className="flex flex-col text-center h-[200px] row-span-1 rounded-md p-5 bg-[#f2f2f2]">
+            </Link>
+            <Link to={"/browse-schools"} >
+            <div className="flex flex-col text-center h-[200px] row-span-1 rounded-md hover:bg-[#69C080] bg-[#f2f2f2] p-5  ">
               {" "}
               <IconPack14
                 className="w-2/12  stroke-[7px]"
@@ -156,7 +202,9 @@ function EmployeeDashboardPage(props) {
               />{" "}
               <p className="font-semibold text-xl ">Browse Schools</p>{" "}
             </div>
-            <div className="flex flex-col text-center h-[200px] row-span-1 rounded-md p-5 bg-[#f2f2f2]">
+            </Link>
+            <Link to={"/messages"} >
+            <div className="flex flex-col text-center h-[200px] row-span-1 rounded-md hover:bg-[#69C080] bg-[#f2f2f2] p-5  ">
               {" "}
               <IconPack15
                 className="w-2/12  stroke-[7px]"
@@ -171,6 +219,7 @@ function EmployeeDashboardPage(props) {
               />{" "}
               <p className="font-semibold text-xl ">Messages</p>{" "}
             </div>
+            </Link>
           </div>
         </div>
         

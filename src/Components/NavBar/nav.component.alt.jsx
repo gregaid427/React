@@ -25,11 +25,25 @@ export const NavAlt = () => {
 
   const id = JSON.parse(localStorage.getItem("users"));
 
-  var data = {
-    user_id: id?.user.user_id,
-    email: id?.user.email,
-    role: id?.user.role,
-    name: id?.user.name,
+  var companydata = {
+    user_id: id?.company?.company_id,
+    email: id?.company?.email,
+    role: "",
+    name: id?.company?.name,
+    isAdmin: id?.isAdmin,
+    expiresIn: id?.expiresIn,
+    isLoggedIn: id?.isLoggedIn,
+    isCompany: id?.isCompany,
+    message: id?.message,
+    success: id?.success,
+    token: id?.token,
+  };
+
+  var userdata = {
+    user_id: id?.user?.user_id,
+    email: id?.user?.email,
+    role: id?.user?.role,
+    name: id?.user?.name,
     isAdmin: id?.isAdmin,
     expiresIn: id?.expiresIn,
     isLoggedIn: id?.isLoggedIn,
@@ -40,22 +54,36 @@ export const NavAlt = () => {
   };
 
   var user = myuser;
-  if (id) {
-    var user = id;
+  const earner = JSON.parse(localStorage.getItem("usersID"));
+  const companyy = JSON.parse(localStorage.getItem("companyID"));
 
-    if (myuser?.isLoggedIn === false) {
-      dispatch(setUserInfo(data));
+  useEffect(() => {
+ 
+
+    if (companyy !== false && myuser?.token === "") {
+   
+     
+      dispatch(setUserInfo(companydata));
     }
-  } else {
-    var user = myuser;
-  }
+    if (earner !== false && myuser?.token === "") {
+    
+      
+    
+      dispatch(setUserInfo(userdata));
+    } else {
+    }
+  }, []);
 
   function logout() {
     const id = JSON.parse(localStorage.getItem("users"));
 
-    dispatch(logoutAction(id?.user.user_id));
+    dispatch(logoutAction(id?.user?.user_id));
     dispatch(reset());
-    localStorage.setItem("users", null);
+    localStorage.removeItem("users");
+    localStorage.removeItem("company");
+    localStorage.removeItem("companyID");
+    localStorage.removeItem("user");
+    localStorage.removeItem("usersID");
   }
   useEffect(() => {}, [user?.success]);
 
@@ -73,17 +101,19 @@ export const NavAlt = () => {
         </Link>
         <div className="w-10/12 flex  justify-between pl-20  l">
           <div className={!user?.isLoggedIn ? "sm:hidden md:flex " : "hidden "}>
-            <ul className={0 ? "sm:hidden md:flex " : "hidden "}>
+            <ul
+              className={myuser?.isCompany ? "sm:hidden md:flex " : "hidden "}
+            >
               <Link to="/company-faq">
                 <li>
                   <p className="text-2xl">How It Works</p>
                 </li>
               </Link>
             </ul>
-          </div>
 
-          <div className={!user?.isLoggedIn ? "sm:hidden md:flex " : "hidden "}>
-            <ul className={!0 ? "sm:hidden md:flex " : "hidden "}>
+            <ul
+              className={!myuser?.isCompany ? "sm:hidden md:flex " : "hidden "}
+            >
               <Link to="/job-seeker-faq">
                 <li>
                   <p className="text-2xl">How It Works</p>
@@ -92,7 +122,7 @@ export const NavAlt = () => {
             </ul>
           </div>
 
-          <ul className={0 ? "sm:hidden md:flex " : "hidden "}>
+          <ul className={myuser?.isCompany ? "sm:hidden md:flex " : "hidden "}>
             <Link to="/cvs">
               <li>
                 <p className="text-2xl"> Browse CVs</p>
@@ -100,7 +130,7 @@ export const NavAlt = () => {
             </Link>
           </ul>
 
-          <ul className={!0 ? "sm:hidden md:flex " : "hidden "}>
+          <ul className={!myuser?.isCompany ? "sm:hidden md:flex " : "hidden "}>
             <Link to="/browse-jobs">
               <li>
                 <p className="text-2xl"> Browse Jobs</p>
@@ -108,7 +138,7 @@ export const NavAlt = () => {
             </Link>
           </ul>
 
-          <ul className={0 ? "sm:hidden md:flex " : "hidden "}>
+          <ul className={myuser?.isCompany ? "sm:hidden md:flex " : "hidden "}>
             <Link to="/post-a-job">
               <li>
                 <p className="text-2xl"> Post a Job</p>
@@ -117,12 +147,12 @@ export const NavAlt = () => {
           </ul>
 
           <ul className={user?.isLoggedIn ? "sm:hidden md:flex " : "hidden "}>
-            <Link to={0 ? "/company-dashboard" : "/employee-dashboard"}>
-              <li>
-                <p className="text-2xl"> Dashboard</p>
-              </li>
-            </Link>
-          </ul>
+              <Link to={myuser?.isCompany ? "/company-dashboard" : "/employee-dashboard"}>
+                <li>
+                  <p className="text-2xl"> Dashboard</p>
+                </li>
+              </Link>
+            </ul>
 
           {/* <ul className= {!0 ? user ? "sm:hidden md:flex " : "hidden " }>
             <Link to="/employee-dashboard">
@@ -149,7 +179,9 @@ export const NavAlt = () => {
             </Link>
           </ul>
             )} */}
-          <div className={!0 ? "sm:hidden md:flex " : "hidden "}>
+          <div
+            className={!myuser?.isCompany ? "sm:hidden md:flex " : "hidden "}
+          >
             <ul className={user?.isLoggedIn ? "sm:hidden md:flex " : "hidden "}>
               <Link to="/browse-companies">
                 <li>
@@ -157,15 +189,17 @@ export const NavAlt = () => {
                 </li>
               </Link>
             </ul>
-          </div>
 
-          <ul className={!0 ? "sm:hidden md:flex " : "hidden "}>
-            <Link to="/browse-jobs">
-              <li>
-                <p className="text-2xl">Apply For Jobs</p>
-              </li>
-            </Link>
-          </ul>
+            <ul
+              className={!user?.isLoggedIn ? "sm:hidden md:flex " : "hidden "}
+            >
+              <Link to="/browse-jobs">
+                <li>
+                  <p className="text-2xl">Apply For Jobs</p>
+                </li>
+              </Link>
+            </ul>
+          </div>
 
           <div className={user?.isLoggedIn ? "sm:hidden md:flex " : "hidden "}>
             <ul className="sm:hidden md:flex ">

@@ -23,13 +23,22 @@ export const Nav = () => {
   const dispatch = useDispatch();
   const myuser = useSelector((state) => state?.myusers);
 
+//  const [user , setuser] = useState("")
+
+
+
+
+
+
+
   const id = JSON.parse(localStorage.getItem("users"));
 
-  var data = {
-    user_id: id?.user.user_id,
-    email: id?.user.email,
-    role: id?.user.role,
-    name: id?.user.name,
+
+  var companydata = {
+    user_id:  id?.company?.company_id,
+    email: id?.company?.email,
+    role: "",
+    name: id?.company?.name,
     isAdmin: id?.isAdmin,
     expiresIn: id?.expiresIn,
     isLoggedIn: id?.isLoggedIn,
@@ -39,23 +48,56 @@ export const Nav = () => {
     token: id?.token,
   };
 
-  var user = myuser;
-  if (id) {
-    var user = id;
 
-    if (myuser?.isLoggedIn === false) {
-      dispatch(setUserInfo(data));
+
+  var userdata = {
+    user_id:  id?.user?.user_id,
+    email: id?.user?.email,
+    role: id?.user?.role,
+    name: id?.user?.name,
+    isAdmin: id?.isAdmin,
+    expiresIn: id?.expiresIn,
+    isLoggedIn: id?.isLoggedIn,
+    isCompany: id?.isCompany,
+    message: id?.message,
+    success: id?.success,
+    token: id?.token,
+  };
+  var user = myuser
+
+  
+  useEffect(() => {
+
+    const earner = JSON.parse(localStorage.getItem("usersID"));
+    const companyy = JSON.parse(localStorage.getItem("companyID"));
+    console.log(myuser)
+    if (companyy !== "" ) {
+      if (myuser?.isCompany)
+        console.log(
+          "dispatchedfffffffffffffffffffffffffffffffffffffffffffffff"
+        );
+      dispatch(setUserInfo(companydata));
     }
-  } else {
-    var user = myuser;
-  }
+    if (earner !== "" ) {
+      if (myuser?.isCompany)
+        console.log(
+          "dispatchedfffffffffffffffffffffffffffffffffffffffffffffff"
+        );
+      dispatch(setUserInfo(userdata));
+    } else {
+    }
+  }, []);
 
   function logout() {
     const id = JSON.parse(localStorage.getItem("users"));
 
     dispatch(logoutAction(id?.user.user_id));
     dispatch(reset());
-    localStorage.setItem("users", null);
+    localStorage.removeItem("users");
+    localStorage.removeItem("company");
+    localStorage.removeItem("companyID");
+    localStorage.removeItem("user");
+    localStorage.removeItem("usersID");
   }
   useEffect(() => {}, [user?.success]);
 
@@ -75,19 +117,17 @@ export const Nav = () => {
             <div
               className={!user?.isLoggedIn ? "sm:hidden md:flex " : "hidden "}
             >
-              <ul className={0 ? "sm:hidden md:flex " : "hidden "}>
+              <ul className={myuser?.isCompany ? "sm:hidden md:flex " : "hidden "}>
                 <Link to="/company-faq">
                   <li>
                     <p className="text-2xl">How It Works</p>
                   </li>
                 </Link>
               </ul>
-            </div>
+         
 
-            <div
-              className={!user?.isLoggedIn ? "sm:hidden md:flex " : "hidden "}
-            >
-              <ul className={!0 ? "sm:hidden md:flex " : "hidden "}>
+          
+              <ul className={!myuser?.isCompany ? "sm:hidden md:flex " : "hidden "}>
                 <Link to="/job-seeker-faq">
                   <li>
                     <p className="text-2xl">How It Works</p>
@@ -96,7 +136,7 @@ export const Nav = () => {
               </ul>
             </div>
 
-            <ul className={0 ? "sm:hidden md:flex " : "hidden "}>
+            <ul className={myuser?.isCompany ? "sm:hidden md:flex " : "hidden "}>
               <Link to="/cvs">
                 <li>
                   <p className="text-2xl"> Browse CVs</p>
@@ -104,7 +144,7 @@ export const Nav = () => {
               </Link>
             </ul>
 
-            <ul className={!0 ? "sm:hidden md:flex " : "hidden "}>
+            <ul className={!myuser?.isCompany ? "sm:hidden md:flex " : "hidden "}>
               <Link to="/browse-jobs">
                 <li>
                   <p className="text-2xl"> Browse Jobs</p>
@@ -112,7 +152,7 @@ export const Nav = () => {
               </Link>
             </ul>
 
-            <ul className={0 ? "sm:hidden md:flex " : "hidden "}>
+            <ul className={myuser?.isCompany ? "sm:hidden md:flex " : "hidden "}>
               <Link to="/post-a-job">
                 <li>
                   <p className="text-2xl"> Post a Job</p>
@@ -121,7 +161,7 @@ export const Nav = () => {
             </ul>
 
             <ul className={user?.isLoggedIn ? "sm:hidden md:flex " : "hidden "}>
-              <Link to={0 ? "/company-dashboard" : "/employee-dashboard"}>
+              <Link to={myuser?.isCompany ? "/company-dashboard" : "/employee-dashboard"}>
                 <li>
                   <p className="text-2xl"> Dashboard</p>
                 </li>
@@ -153,6 +193,7 @@ export const Nav = () => {
             </Link>
           </ul>
             )} */}
+           <div className={!myuser?.isCompany ? "sm:hidden md:flex " : "hidden "}>
             <ul className={user?.isLoggedIn ? "sm:hidden md:flex " : "hidden "}>
               <Link to="/browse-companies">
                 <li>
@@ -161,24 +202,30 @@ export const Nav = () => {
               </Link>
             </ul>
 
-            <ul className={!0 ? "sm:hidden md:flex " : "hidden "}>
-              <Link to="/browse-jobs">
+            {/* <ul className={!myuser?.isCompany ? "sm:hidden md:flex " : "hidden "}>
+            <Link to="/browse-jobs">
+              <li>
+                <p className="text-2xl">Apply For Jobs</p>
+              </li>
+            </Link>
+          </ul> */}
+
+          </div>
+       
+            <div className={user?.isLoggedIn ? "sm:hidden md:flex " : "hidden "}>
+            <ul className="sm:hidden md:flex ">
+              <Link
+                to="/"
+                onClick={() => {
+                  logout();
+                }}
+              >
                 <li>
-                  <p className="text-2xl">Apply For Jobs</p>
+                  <p className="text-2xl">Sign Out</p>
                 </li>
               </Link>
             </ul>
-            <div
-              className={user?.isLoggedIn ? "sm:hidden md:flex " : "hidden "}
-            >
-              <ul className="sm:hidden md:flex ">
-                <Link to="/">
-                  <li>
-                    <p className="text-2xl">Sign Out</p>
-                  </li>
-                </Link>
-              </ul>
-            </div>
+          </div>
 
             <div
               className={!user?.isLoggedIn ? "sm:hidden md:flex " : "hidden "}

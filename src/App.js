@@ -172,7 +172,7 @@ function App() {
                 element={<CompanyList setShowNavBar={setShowNavBar} />}
               />
               <Route
-                path="/company-details"
+                path="/company-details/:companyId"
                 element={<CompanyDetails setShowNavBar={setShowNavBar} />}
               />
               <Route

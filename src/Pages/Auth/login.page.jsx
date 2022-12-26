@@ -15,8 +15,6 @@ function Login(props) {
   const [email, setEmail] = useState("");
   const [userType, setUserType] = useState("");
 
-
-
   // useNavigate
   let navigate = useNavigate();
 
@@ -35,23 +33,31 @@ function Login(props) {
       email: email,
       password: password,
     };
- 
+
     dispatch(loginUserAction(raw));
   };
 
   useEffect(() => {
-
     if (user?.success === true && user?.isCompany == true) {
       localStorage.setItem("users", JSON.stringify(user?.loginUser));
-      
-      navigate('/company-guide')
-  
-     }
-     if (user?.success === true && user?.isCompany == false) {
-      localStorage.setItem("users", JSON.stringify(user?.loginUser));
-      navigate("/employee-guide")
-     }
 
+      localStorage.setItem(
+        "companyID",
+        JSON.stringify(user?.loginUser?.company?.company_id)
+      );
+      localStorage.setItem("usersID", false);
+
+      navigate("/company-guide");
+    }
+    if (user?.success === true && user?.isCompany == false) {
+      localStorage.setItem("users", JSON.stringify(user?.loginUser));
+      localStorage.setItem(
+        "usersID",
+        JSON.stringify(user?.loginUser?.user?.user_id)
+      );
+      localStorage.setItem("companyID", false);
+      navigate("/employee-guide");
+    }
   }, [user.success]);
 
   function reset(e) {

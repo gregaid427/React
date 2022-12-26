@@ -177,7 +177,7 @@ function GuidePage(props) {
                 jobs.slice(0, 4).map((job, index) => (
                   <Link
                     className="text-decoration-none text-black"
-                    to="/job-details"
+                    to={'/job-details/'+job._id+'/'+job.company }
                     state={job}
                     key={index}
                   >

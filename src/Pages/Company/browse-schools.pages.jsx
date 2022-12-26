@@ -99,22 +99,73 @@ function SchoolsList(props) {
             </Link>
           </button>
         </div>
-        <div className=" text-xl flex gap-2 font-semibold  ">
-            <h3 className="">Need more search options? {" "}
+        <div className=" text-xl flex gap-2 font-semibold  my-5 pb-3  ">
+          <h3 className="">
+            Need more search options?{" "}
             <Link to="/advanced-search">
               {" "}
               <span className=" text-[#69C080]">Advanced Search</span>{" "}
-            </Link>{" "}</h3>
-          </div>
+            </Link>{" "}
+          </h3>
+        </div>
       </div>
 
       <div className="wrapper my-6 md:grid-cols-3 sm:grid-cols-1 gap-12 grid">
+        {schools && schools.length > 0 ? (
+          <>
+            {schools &&
+              schools
+                // .filter((school) => {
+                //   return (
+                //     school.name.includes(keyword) ||
+                //     school.symbol.includes(keyword)
+                //   );
+                // })
+                .map((company) => (
+                  <div className=" row-span-1 rounded-md bg-[#f2f2f2]  flex flex-col shadow-md relative ">
+                    <img
+                      className="rounded-md h-[270px]  "
+                      src={company.image ? company.image : Suitcase}
+                    ></img>
+                    <div
+                      style={{ height: "50px", width: "50px" }}
+                      className=" top-3 absolute right-3 "
+                    >
+                      {" "}
+                      {company?.isVerified ? (
+                        <IconPack2 fill="#ffc107" />
+                      ) : (
+                        <IconPack1 fill="#ffc107" />
+                      )}
+                    </div>
+                    <div className=" flex p-3  md:h-[120px] justify-between  bg-[#f2f2f2] flex-col gap-3 ">
+                      <h3 className="font-semibold">{company?.name}</h3>
+                      {/* <h3 className="text-slate-400">24 Applicants from this school</h3> */}
+                      <button className="  bg-[#69C080] w-fit rounded-md p-1 px-2 ">
+                        <Link to={"/company-details"} className="text-white">
+                          {" "}
+                          VIEW PROFILES{" "}
+                        </Link>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+          </>
+        ) : (
+          <>
+            <p className="text-center">no schools found</p>
+          </>
+        )}
+        below are hardcoded ,waiting resolution on badges
         <div className=" row-span-1 rounded-md flex flex-col shadow-md relative ">
-          <img className="rounded-md h-[270px]  " src={img2}></img>
-          <div style={{ height: "50px", width: "50px" }} className=" top-3 absolute right-3 ">
-                {" "}
-                <IconPack1 fill="#ffc107" />
-              </div>
+          <img className="rounded-md h-[270px]  " src={img3}></img>
+          <div
+            style={{ height: "50px", width: "50px" }}
+            className=" top-3 absolute right-3 "
+          >
+            {" "}
+            <IconPack2 fill="#ffc107" />
+          </div>
           <div className=" flex p-3  bg-[#f2f2f2] flex-col gap-3 ">
             <h3 className="font-semibold">School Name Here</h3>
             <h3 className="text-slate-400">24 Applicants from this school</h3>
@@ -126,48 +177,15 @@ function SchoolsList(props) {
             </button>
           </div>
         </div>
-
         <div className=" row-span-1 rounded-md flex flex-col shadow-md relative ">
-        <img className="rounded-md h-[270px]  " src={img3}></img>
-          <div style={{ height: "50px", width: "50px" }} className=" top-3 absolute right-3 ">
-                {" "}
-                <IconPack2 fill="#ffc107" />
-              </div>
-          <div className=" flex p-3  bg-[#f2f2f2] flex-col gap-3 ">
-            <h3 className="font-semibold">School Name Here</h3>
-            <h3 className="text-slate-400">24 Applicants from this school</h3>
-            <button className=" bg-[#69C080] w-fit rounded-md p-1 px-2 ">
-              <Link to={"/company-details"} className="text-white">
-                {" "}
-                VIEW PROFILES{" "}
-              </Link>
-            </button>
+          <img className="rounded-md h-[270px]  " src={img3}></img>
+          <div
+            style={{ height: "50px", width: "50px" }}
+            className=" top-3 absolute right-3 "
+          >
+            {" "}
+            <IconPack1 fill="#ffc107" />
           </div>
-        </div>
-
-        <div className=" row-span-1 rounded-md flex flex-col shadow-md relative ">
-        <img className="rounded-md h-[270px]  " src={img1}></img>
-          <div style={{ height: "50px", width: "50px" }} className=" top-3 absolute right-3 ">
-                {" "}
-                <IconPack1 fill="rgb(148,162,184)" />
-              </div>
-          <div className=" flex p-3  bg-[#f2f2f2] flex-col gap-3 ">
-            <h3 className="font-semibold">School Name Here</h3>
-            <h3 className="text-slate-400">4 Applicants from this school</h3>
-            <button className=" bg-[#69C080] w-fit rounded-md p-1 px-2 ">
-              <Link to={"/company-details"} className="text-white">
-                {" "}
-                VIEW PROFILES{" "}
-              </Link>
-            </button>
-          </div>
-        </div>
-        <div className=" row-span-1 rounded-md flex flex-col shadow-md relative ">
-        <img className="rounded-md h-[270px]  " src={img3}></img>
-          <div style={{ height: "50px", width: "50px" }} className=" top-3 absolute right-3 ">
-                {" "}
-                <IconPack1 fill="#ffc107" />
-              </div>
           <div className=" flex p-3  bg-[#f2f2f2] flex-col gap-3 ">
             <h3 className="font-semibold">School Name Here</h3>
             <h3 className="text-slate-400">24 Applicants from this school</h3>
