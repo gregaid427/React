@@ -87,7 +87,7 @@ function CompanyList(props) {
 
               // onClick={(e) => set0(false)}
             >
-              <Link to="/employee-guide w-6/12 " className="text-white">
+              <Link to="/employee-guide w-6/12 " className="text-white uppercase">
                 SEARCH companies
               </Link>
             </button>
