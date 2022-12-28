@@ -48,7 +48,7 @@ function UploadCV(props) {
       userId: users?.user_id,
       resume: {
         education: {
-          highestLevelOfEeducation: highestLevelOfEeducation,
+          highestLevelOfEeducation: "Degree",
           school: school,
           address: {
             country: country,

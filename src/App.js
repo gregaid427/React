@@ -43,6 +43,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import BrowseSchoolGradYears from "./Pages/Candidates/browse-school-grad.pages";
 import store from "./redux/store/store";
 import { Provider } from "react-redux";
+import ScrollToTop from "./ScrollToTop";
+
 
 
 
@@ -55,7 +57,9 @@ function App() {
       <ToastContainer />
    
       <Provider store={ store   }>
+      <ScrollToTop>
             <Routes>
+           
               <Route
                 path="/"
                 element={<Home setShowNavBar={setShowNavBar} />}
@@ -191,7 +195,9 @@ function App() {
                 path="*"
                 element={<Home setShowNavBar={setShowNavBar} />}
               />
+
             </Routes>
+            </ScrollToTop>
             </Provider>
       </Router>
     </>

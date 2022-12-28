@@ -113,7 +113,7 @@ export const Nav = () => {
             {" "}
             <img src={GreenSquareLogo}></img>
           </Link>
-          <div className="w-10/12 flex  justify-between pl-20 ">
+          <div className="w-10/12 flex  justify-end gap-20 ">
             <div
               className={!user?.isLoggedIn ? "sm:hidden md:flex " : "hidden "}
             >

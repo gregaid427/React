@@ -18,7 +18,7 @@ function JobContainer(props) {
       <div className="md:w-12/12 sm:w-12/12 items-center flex sm:flex-col  bg-white ">
         <img
           src={feature1}
-          className="md:w-2/12 sm:w-12/12 h-[150px] object-contain "
+          className="md:w-auto sm:w-12/12 h-[150px] object-contain "
         ></img>
 
         <div className="md:w-10/12 sm:w-12/12  py-3  px-4  flex flex-col gap-2 md:my-auto ">

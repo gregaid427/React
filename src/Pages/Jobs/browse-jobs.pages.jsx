@@ -199,7 +199,8 @@ export default function BrowseJobs(props) {
           </div>
         </div>
       </div>
-      <div className="wrapper flex w-12/12 gap-3 flex-col ">
+      <div className="wrapper flex w-12/12 gap-3 bg-[#f2f2f2]  flex-col ">
+        <div className="py-10" >
           {jobs.length > 0 ? (
             <>
               {jobs &&
@@ -220,7 +221,7 @@ export default function BrowseJobs(props) {
             </>
           ) : (
             <p className="text-center text-2xl ">No jobs found.</p>
-          )}
+          )}</div>
         </div>{" "}
       <div className="my-6 bg-[#f2f2f2]">
         <div className=" wrapper  ">
